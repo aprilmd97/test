@@ -1,0 +1,464 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO"
+        crossorigin="anonymous">
+
+    <style>
+        .content {
+            text-align: center;
+            margin: 0;
+        }
+
+        body {
+            background-color: black;
+        }
+
+        form {
+            margin-top: 5%;
+        }
+
+        button {
+            background-color: black;
+            padding: 10px;
+            border-style: solid rgb(255, 255, 255) 3px;
+            border-radius: 25px;
+            margin-bottom: 10px;
+            outline: none;
+            color: #ffffff;
+            width: 100px;
+        }
+
+        button:hover {
+            background-color: rgba(255, 255, 255, 0.089);
+            padding: 10px;
+            border-style: solid rgb(255, 255, 255) 3px;
+            border-radius: 25px;
+            margin-bottom: 10px;
+            outline: none;
+            color: #bdbdbd;
+            width: 100px;
+        }
+
+        input {
+            background-color: black;
+            padding: 10px;
+            border-style: solid rgb(255, 255, 255) 3px;
+            border-radius: 25px;
+            margin-bottom: 10px;
+            outline: none;
+            color: #bdbdbd;
+            opacity: .5;
+        }
+
+        #movie-input:hover {
+            background-color: black;
+            padding: 10px;
+            border-style: solid rgb(255, 255, 255) 3px;
+            border-radius: 25px;
+            margin-bottom: 10px;
+            outline: none;
+            color: #bdbdbd;
+            width: 500px;
+            opacity: 1;
+        }
+
+        .wrapper {
+            border: 2px solid white;
+            border-style: solid rgb(255, 255, 255) 1px;
+            border-radius: 25px;
+            opacity: .5;
+            color: #bdbdbd;
+            padding: 15px;
+            margin: 10px;
+            width: flex;
+            position: relative;
+            display: inline-flex;
+
+        }
+
+        form {
+            position: static;
+        }
+
+        #login {
+            position: relative;
+            left: 40em;
+            margin: 4em;
+        }
+
+        .title:hover {
+            color: rgb(255, 255, 255);
+            font-size: 20px;
+            cursor: pointer;
+        }
+    </style>
+
+    <link type="text/css" rel="stylesheet" href="https://cdn.firebase.com/libs/firebaseui/3.1.1/firebaseui.css" />
+    <title>Document</title>
+
+</head>
+
+<body>
+
+    <div id="dialog">
+        <div id="firebaseui-auth-container"></div>
+    </div>
+
+    <div class="content">
+        <!--Logo placement-->
+        <div>
+            <button id="login" type="submit">Login</button>
+            <button id="logout" type="submit" hidden="true">Logout</button>
+
+            <p id="userName" hidden="true"></p>
+        </div>
+
+        <div class="search" hidden="true">
+            <form>
+
+                <div class="logoLarge">
+                    <img src="Images/logoDesktop.png" alt="logoDesktop" width="200" height="auto">
+                </div>
+                <input type="text" style="width: 300px;" placeholder="Search Movie or TV Series..." id="movie-input"
+                    required>
+                <br>
+                <p id="example-text" hidden="true">Ex. search "Star Wars" to find where it streams</p>
+
+                <button type="submit" id="find-movie" onclick="location.href='landing.html'">Search</button>
+                <button type="submit">Random</button>
+
+            </form>
+
+        </div>
+
+        <div class="wrapper" hidden="true">
+            <table id="myTable" hidden="true">
+                <thead>
+                    <tr>
+                        <th></th>
+                        <th></th>
+                        <th></th>
+                        <th></th>
+                    </tr>
+                </thead>
+
+                <tbody>
+                    <tr>
+                        <td onclick="location.href='landing.html'" id="title-data_1" class="title"></td>
+                        <td id="year-data_1"></td>
+                        <td onclick="location.href='landing.html'" id="title-data_5" class="title"></td>
+                        <td id="year-data_5"></td>
+
+                    </tr>
+
+                    <tr>
+                        <td onclick="location.href='landing.html'" id="title-data_2" class="title"></td>
+                        <td id="year-data_2"></td>
+                        <td onclick="location.href='landing.html'" id="title-data_6" class="title"></td>
+                        <td id="year-data_6"></td>
+                    </tr>
+                    <tr>
+                        <td onclick="location.href='landing.html'" id="title-data_3" class="title"></td>
+                        <td id="year-data_3"></td>
+                        <td onclick="location.href='landing.html'" id="title-data_7" class="title"></td>
+                        <td id="year-data_7"></td>
+                    </tr>
+                    <tr>
+                        <td onclick="location.href='landing.html'" id="title-data_4" class="title"></td>
+                        <td id="year-data_4"></td>
+                        <td onclick="location.href='landing.html'" id="title-data_8" class="title"></td>
+                        <td id="year-data_8"></td>
+                    </tr>
+                    <tr>
+                </tbody>
+            </table>
+        </div>
+
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.3.1.js" integrity="sha256-2Kok7MbOyxpgUVvAk/HJ2jigOSYS2auK4Pfzbm7uH60="
+        crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.6/umd/popper.min.js" integrity="sha384-wHAiFfRlMFy6i5SRaxvfOCifBUQy1xHdJ/yoi7FRNXMRBu5WHdZYu1hA6ZOblgut"
+        crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/js/bootstrap.min.js" integrity="sha384-B0UglyR+jN6CkvvICOB2joaf5I4l3gm9GU6Hc1og6Ls7i6U/mkkaduKaBhlAXv9k"
+        crossorigin="anonymous"></script>
+    <script src="https://cdn.firebase.com/libs/firebaseui/3.1.1/firebaseui.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/5.7.2/firebase.js"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js" integrity="sha256-T0Vest3yCU7pafRw9r+settMBX6JkKN06dqBnpQ8d30="
+        crossorigin="anonymous"></script>
+
+    <script>
+
+        $(document).ready(function () {
+
+            var config = {
+                apiKey: "AIzaSyA60HsV7ILHfehSDuSdSElHX76qR-Bkt_w",
+                authDomain: "game-3117c.firebaseapp.com",
+                databaseURL: "https://game-3117c.firebaseio.com",
+                projectId: "game-3117c",
+                storageBucket: "game-3117c.appspot.com",
+                messagingSenderId: "485448934879"
+            };
+
+            firebase.initializeApp(config);
+
+            var database = firebase.database();
+            var ui = new firebaseui.auth.AuthUI(firebase.auth());
+
+            $("#login").on("click", function (event) {
+                event.preventDefault();
+
+                $(".content").hide();
+
+                $(function () {
+
+                    var dia = $("#dialog");
+                    $("#dialog").dialog();
+
+                    $(".ui-button").on("click", function () {
+                        $(".content").show();
+                    });
+                });
+
+
+                ui.start('#firebaseui-auth-container', uiConfig);
+
+                firebase.auth().signInWithEmailAndPassword(email, password).catch(function (error) {
+                    // Handle Errors here.
+                    var errorCode = error.code;
+                    var errorMessage = error.message;
+                    // ...
+                });
+
+                firebase.auth().createUserWithEmailAndPassword(email, password).catch(function (error) {
+                    // Handle Errors here.
+                    var errorCode = error.code;
+                    var errorMessage = error.message;
+
+                    user.sendEmailVerification().then(function () {
+                        // Email sent.
+                    }).catch(function (error) {
+                        // An error happened.
+                    });
+
+                    // ...
+                });
+
+
+
+                var uiConfig = {
+
+                    callbacks: {
+                        signInSuccessWithAuthResult: function (authResult, redirectUrl) {
+                            // User successfully signed in.
+                            // or whether we leave that to developer to handle.
+                            return true;
+                        },
+                        // Will use popup for IDP Providers sign-in flow instead of the default, redirect.
+                        signInFlow: 'popup',
+                        signInSuccessUrl: 'index.html',
+                        signInOptions: [
+                            // Leave the lines as is for the providers you want to offer your users.
+                            firebase.auth.EmailAuthProvider.PROVIDER_ID
+
+                        ],
+
+                    }
+
+                }
+
+
+
+            });
+
+
+            var connectionsRef = database.ref("/connections");
+            var connectedRef = database.ref(".info/connected");
+
+            connectedRef.on("value", function (snap) {
+
+                // If they are connected..
+                if (snap.val()) {
+
+                    // Add user to the connections list.
+                    var con = connectionsRef.push(true);
+                    // Remove user from the connection list when they disconnect.
+                    con.onDisconnect().remove();
+                }
+            });
+
+            var currentUser = null;
+
+
+            firebase.auth().onAuthStateChanged(function (user) {
+                if (user) {
+                    console.log(user.uid);
+
+                    $("#userName").text(user.displayName);
+                    $("#login").hide();
+                    $("#logout").attr("hidden", false);
+
+                    currentUser = user;
+                    database.ref('/user' + currentUser.uid);
+
+                } else {
+
+                    $("#login").show();
+                    $("#logout").attr("hidden", true);
+                    console.log("Not Logged In");
+
+                    currentUser = null;
+                    database.ref('/user' + currentUser);
+
+                }
+
+            });
+
+            $("#logout").on("click", function () {
+                $("#login").show();
+                $("#logout").hide();
+                firebase.auth().signOut().then(function () {
+                    // Sign-out successful.
+                }).catch(function (error) {
+                    // An error happened.
+                });
+            });
+
+
+            $(".search").fadeIn(4000);
+            $(".search").attr("hidden", false);
+
+            $("#movie-input").on("click", function () {
+                $("#example-text").attr("hidden", false);
+                $("#movie-input").attr("style", "width: 500px;");
+            });
+
+
+            $("#movie-input").on("mouseout", function () {
+                $("#example-text").attr("hidden", true);
+                $("#movie-input").attr("style", "width: 300px;")
+                $("#movie-input").attr("placeholder", "Search Movie or TV Series...");
+            });
+
+            $("#movie-input").on("keyup", function () {
+
+                $("#example-text").attr("hidden", true);
+
+                $("#myTable").fadeIn(2000);
+                $("#myTable").attr("hidden", false);
+
+
+                var movie = $(this).val().trim().toLowerCase();
+                var queryURL = "https://www.omdbapi.com/?s=" + movie + "&y=&plot=short&apikey=trilogy";
+
+                $.ajax({
+                    url: queryURL,
+                    method: "GET"
+                }).then(function (response) {
+                    console.log(response);
+
+                    if (response.Error) {
+                        $(".wrapper").attr("hidden", true);
+                    } else {
+                        $(".wrapper").attr("hidden", false);
+                    }
+
+                    $("#title-data_1").text(response.Search[0].Title);
+                    $("#title-data_2").text(response.Search[1].Title);
+                    $("#title-data_3").text(response.Search[2].Title);
+                    $("#title-data_4").text(response.Search[3].Title);
+                    $("#title-data_5").text(response.Search[4].Title);
+                    $("#title-data_6").text(response.Search[5].Title);
+                    $("#title-data_7").text(response.Search[6].Title);
+                    $("#title-data_8").text(response.Search[7].Title);
+                    $("#title-data_9").text(response.Search[8].Title);
+
+                    $("#year-data_1").text(response.Search[0].Year);
+                    $("#year-data_2").text(response.Search[1].Year);
+                    $("#year-data_3").text(response.Search[2].Year);
+                    $("#year-data_4").text(response.Search[3].Year);
+                    $("#year-data_5").text(response.Search[4].Year);
+                    $("#year-data_6").text(response.Search[5].Year);
+                    $("#year-data_7").text(response.Search[6].Year);
+                    $("#year-data_8").text(response.Search[7].Year);
+                    $("#year-data_9").text(response.Search[8].Year);
+
+                });
+
+            });
+
+            $("#find-movie").on("click", function (event) {
+                event.preventDefault();
+
+                var movie = $("#movie-input").val().trim();
+
+                console.log(movie);
+
+                if (currentUser === null) {
+                    database.ref('/user' + currentUser).push({
+                        movie: movie
+                    })
+                } else {
+                    database.ref('/user' + currentUser.uid).push({
+                        movie: movie
+                    })
+                };
+
+
+                connectedRef.on("value", function (snap) {
+
+                    // If they are connected..
+                    if (snap.val()) {
+
+                        // Add user to the connections list.
+                        var con = connectionsRef.push(true);
+                        // Remove user from the connection list when they disconnect.
+                        con.onDisconnect().remove();
+                    }
+                });
+
+
+            });
+
+            $("td").on("click", function (event) {
+                event.preventDefault();
+
+                var movie = $(this).text().trim();
+
+                if (currentUser === null) {
+                    database.ref('/user' + currentUser).set({
+                        movie: movie
+                    })
+                } else {
+                    database.ref('/user' + currentUser.uid).set({
+                        movie: movie
+                    })
+                };
+
+                connectedRef.on("value", function (snap) {
+
+                    // If they are connected..
+                    if (snap.val()) {
+
+                        // Add user to the connections list.
+                        var con = connectionsRef.push(true);
+                        // Remove user from the connection list when they disconnect.
+                        con.onDisconnect().remove();
+                    }
+                });
+
+            });
+
+        });
+
+
+    </script>
+
+</body>
+
+</html>
